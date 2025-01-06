@@ -1,0 +1,33 @@
+{
+  "jobs": [
+    {
+      "id": 1,
+      "title": "ICU Nurse",
+      "location": "Riyadh",
+      "hospital": "King Faisal Specialist Hospital",
+      "type": "Full-time",
+      "description": "Seeking experienced ICU nurses for a leading hospital in Riyadh.",
+      "requirements": [
+        "Minimum 3 years of ICU experience",
+        "Valid nursing license",
+        "BLS and ACLS certification",
+        "Strong critical thinking skills",
+        "Excellent communication abilities"
+      ],
+      "responsibilities": [
+        "Provide direct patient care in ICU setting",
+        "Monitor and assess patient conditions",
+        "Administer medications and treatments",
+        "Collaborate with healthcare team",
+        "Maintain accurate medical records"
+      ],
+      "benefits": [
+        "Competitive salary package",
+        "Housing allowance",
+        "Annual flight tickets",
+        "Medical insurance",
+        "Continuing education support"
+      ]
+    }
+  ]
+}
