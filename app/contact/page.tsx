@@ -1,21 +1,47 @@
 "use client"
 
 import { useState } from "react"
+import emailjs from '@emailjs/browser'
 import { PageHeader } from "@/components/page-header"
 import { ContactInfo } from "@/components/contact-info"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { toast } = useToast()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Handle form submission
-    setTimeout(() => setIsSubmitting(false), 1000)
+
+    try {
+      const form = e.currentTarget
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        form,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      )
+
+      toast({
+        title: "Success",
+        description: "Message sent successfully! We'll get back to you soon.",
+      })
+      form.reset()
+    } catch (error) {
+      console.error('Failed to send message:', error)
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive"
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -32,17 +58,17 @@ export default function ContactPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" required />
+                <Input id="name" name="from_name" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" required />
+                <Input id="email" name="from_email" type="email" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="message">Message</Label>
-                <Textarea id="message" rows={6} required />
+                <Textarea id="message" name="message" rows={6} required />
               </div>
 
               <Button type="submit" disabled={isSubmitting}>
