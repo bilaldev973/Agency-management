@@ -32,7 +32,6 @@ export default function JobPage({ params }: { params: { id: string } }) {
         
         const foundJob = data.jobs.find((j: Job) => j.id === params.id)
         
-        
         if (foundJob) {
           setJob(foundJob)
         }
@@ -139,7 +138,7 @@ export default function JobPage({ params }: { params: { id: string } }) {
               </CardContent>
             </Card>
 
-            <Link href="/apply">
+            <Link href={`/jobs/${params.id}/apply`}>
               <Button className="w-full">Apply Now</Button>
             </Link>
           </div>
