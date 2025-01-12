@@ -10,7 +10,7 @@ export function Footer() {
           <div>
             <Link href="/" className="flex items-center space-x-2 text-white mb-4">
               <Stethoscope className="h-6 w-6" />
-              <span className="font-bold">Saudi Nursing Careers</span>
+              <span className="font-bold">ASHRAM & SON'S</span>
             </Link>
             <p className="text-sm">
               Leading healthcare recruitment agency connecting talented professionals with premier institutions across Saudi Arabia.
@@ -28,11 +28,13 @@ export function Footer() {
 
           <FooterSection title="Contact">
             <ul className="space-y-2 text-sm">
-              <li>King Fahd Road</li>
-              <li>Riyadh 12343</li>
-              <li>Saudi Arabia</li>
-              <li>contact@nursehiring.sa</li>
-              <li>+966 12 345 6789</li>
+              <li>Office # 2/24</li>
+              <li>4rth Floor Silk Center Near</li>
+              <li>Rehamanabad Metro Station RWP</li>
+              <li>hr@aasioe.com</li>
+              <li>hr.umergujjar@gmail.com</li>
+              <li>+92304-9009934</li>
+              <li>+92309-1817632</li>
             </ul>
           </FooterSection>
 
@@ -47,7 +49,7 @@ export function Footer() {
 
         <div className="border-t border-gray-800 pt-8">
           <p className="text-sm text-center">
-            © {new Date().getFullYear()} Saudi Nursing Careers. All rights reserved.
+            © {new Date().getFullYear()} ASHRAM & SON'S. All rights reserved.
           </p>
         </div>
       </div>

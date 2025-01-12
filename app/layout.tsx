@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/toaster'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Saudi Nursing Careers | Healthcare Recruitment Agency',
+  title: 'ASHRAM & SON | Healthcare Recruitment Agency',
   description: 'Leading healthcare recruitment agency connecting talented nursing professionals with premier institutions across Saudi Arabia.',
 }
 

@@ -11,7 +11,7 @@ export function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <Stethoscope className="h-6 w-6" />
-              <span className="font-bold">Saudi Nursing Careers</span>
+              <span className="font-bold">ASHRAM & SON'S</span>
             </Link>
           </div>
           

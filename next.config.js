@@ -1,4 +1,7 @@
 module.exports = {
+  images: {
+    domains: ['images.unsplash.com'], // Allow Unsplash images
+  },
   webpack(config, { isServer }) {
     // Apply babel loader to all files
     config.module.rules.push({
