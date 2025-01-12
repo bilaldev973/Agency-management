@@ -26,7 +26,7 @@ export function HeroSection() {
               </Button>
             </Link>
             <Link href="/apply">
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="default">
                 Apply Now
               </Button>
             </Link>
