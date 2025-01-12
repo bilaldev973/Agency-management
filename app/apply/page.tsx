@@ -7,15 +7,45 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ApplyPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { toast } = useToast()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Handle form submission
-    setTimeout(() => setIsSubmitting(false), 1000)
+
+    try {
+      const formData = new FormData(e.currentTarget)
+      formData.append('jobTitle', 'General Application')
+      formData.append('jobId', 'general')
+
+      const response = await fetch('/api/applications', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to submit application')
+      }
+
+      toast({
+        title: "Success",
+        description: "Your application has been submitted successfully!",
+      })
+      e.currentTarget.reset()
+    } catch (error) {
+      console.error('Application submission error:', error)
+      toast({
+        title: "Error",
+        description: "Failed to submit application. Please try again.",
+        variant: "destructive"
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -29,37 +59,38 @@ export default function ApplyPage() {
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-4">
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" required />
+            <Input id="name" name="name" required />
           </div>
 
           <div className="space-y-4">
             <Label htmlFor="email">Email Address</Label>
-            <Input id="email" type="email" required />
+            <Input id="email" name="email" type="email" required />
           </div>
 
           <div className="space-y-4">
             <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" required />
+            <Input id="phone" name="phone" required />
           </div>
 
           <div className="space-y-4">
-            <Label htmlFor="position">Position</Label>
-            <Select>
+            <Label htmlFor="department">Preferred Department</Label>
+            <Select name="department" required>
               <SelectTrigger>
-                <SelectValue placeholder="Select position" />
+                <SelectValue placeholder="Select department" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="icu">ICU Nurse</SelectItem>
-                <SelectItem value="er">ER Nurse</SelectItem>
-                <SelectItem value="pediatric">Pediatric Nurse</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="icu">ICU</SelectItem>
+                <SelectItem value="er">Emergency Room</SelectItem>
+                <SelectItem value="pediatrics">Pediatrics</SelectItem>
+                <SelectItem value="surgery">Surgery</SelectItem>
+                <SelectItem value="general">General Ward</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-4">
             <Label htmlFor="experience">Years of Experience</Label>
-            <Select>
+            <Select name="experience" required>
               <SelectTrigger>
                 <SelectValue placeholder="Select experience" />
               </SelectTrigger>
@@ -73,17 +104,34 @@ export default function ApplyPage() {
           </div>
 
           <div className="space-y-4">
-            <Label htmlFor="notes">Additional Notes</Label>
-            <Textarea id="notes" rows={4} />
+            <Label htmlFor="resume">Resume/CV</Label>
+            <Input 
+              id="resume" 
+              name="resume" 
+              type="file" 
+              accept=".pdf,.doc,.docx" 
+              required 
+            />
+            <p className="text-sm text-gray-500">
+              Accepted formats: PDF, DOC, DOCX (Max size: 5MB)
+            </p>
           </div>
 
           <div className="space-y-4">
-            <Label htmlFor="resume">Resume</Label>
-            <Input id="resume" type="file" accept=".pdf,.doc,.docx" required />
-            <p className="text-sm text-gray-500">Accepted formats: PDF, DOC, DOCX</p>
+            <Label htmlFor="coverLetter">Cover Letter (Optional)</Label>
+            <Textarea 
+              id="coverLetter" 
+              name="coverLetter" 
+              rows={6}
+              placeholder="Tell us about your experience and what makes you a great candidate."
+            />
           </div>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
+          <Button 
+            type="submit" 
+            className="w-full" 
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Submitting..." : "Submit Application"}
           </Button>
         </form>
