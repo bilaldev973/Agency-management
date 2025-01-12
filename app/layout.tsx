@@ -8,8 +8,18 @@ import { Toaster } from '@/components/ui/toaster'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ASHRAM & SON | Healthcare Recruitment Agency',
+  title: 'Saudi Nursing Careers | Healthcare Recruitment Agency',
   description: 'Leading healthcare recruitment agency connecting talented nursing professionals with premier institutions across Saudi Arabia.',
+  icons: {
+    icon: [
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }
+    ]
+  },
+  manifest: '/manifest.json'
 }
 
 export default function RootLayout({
