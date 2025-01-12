@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast"
 
 export default function ApplyPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
   const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +36,11 @@ export default function ApplyPage() {
         title: "Success",
         description: "Your application has been submitted successfully!",
       })
-      e.currentTarget.reset()
+      
+      // Reset form using the ref
+      if (formRef.current) {
+        formRef.current.reset()
+      }
     } catch (error) {
       console.error('Application submission error:', error)
       toast({
@@ -56,7 +61,7 @@ export default function ApplyPage() {
       />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-4">
             <Label htmlFor="name">Full Name</Label>
             <Input id="name" name="name" required />
@@ -79,11 +84,30 @@ export default function ApplyPage() {
                 <SelectValue placeholder="Select department" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="icu">ICU</SelectItem>
-                <SelectItem value="er">Emergency Room</SelectItem>
-                <SelectItem value="pediatrics">Pediatrics</SelectItem>
-                <SelectItem value="surgery">Surgery</SelectItem>
-                <SelectItem value="general">General Ward</SelectItem>
+              <SelectItem value="ICU">ICU</SelectItem>
+                <SelectItem value="CCU">CCU</SelectItem>
+                <SelectItem value="cathlab">Cath Lab</SelectItem>
+                <SelectItem value="OT">Operation Theater</SelectItem>
+                <SelectItem value="ER">ER</SelectItem>         
+                <SelectItem value="NICU">NICU</SelectItem>
+                <SelectItem value="PEDIATRIC CARDIAC ICU">Pediatric Cardiac ICU</SelectItem>
+                <SelectItem value="PICU">PICU</SelectItem>
+                <SelectItem value="IVF NURSE">IVF Nurse</SelectItem>
+                <SelectItem value="ONCOLOGY NURSE">Oncology Nurse</SelectItem>
+                <SelectItem value="MEDICAL WARD">Medical ward</SelectItem>
+                <SelectItem value="SURGICAL WARD">Surgical Ward</SelectItem>
+                <SelectItem value="HEMODIALYSIS NURSE">Hemodialysis Nurse</SelectItem>
+                <SelectItem value="PEDIATRIC HIGH DEPENDENCY">Pediatric High Dependency</SelectItem>
+                <SelectItem value="CHILD & ABOLESCENT HEALTH">Child & Adolescent Mental Health</SelectItem>
+                <SelectItem value="NEURO SCIENCE ICU">Neuro Science ICU</SelectItem>
+                <SelectItem value="OBS GYNE">OBS Gyne</SelectItem>
+                <SelectItem value="LABOUR ROOM">Labour Room</SelectItem>
+                <SelectItem value="IPD NURSE">IPD Nurse</SelectItem>
+                <SelectItem value="DENTAL/PACU">Dental / PACU</SelectItem>
+                <SelectItem value="VIP TRAUMA CENTER">VIP Trauma Center</SelectItem>
+                <SelectItem value="RESPIRATORY THERAPIST NURSE">Respiratory Therapist Nurse</SelectItem>
+                <SelectItem value="TRAUMA ICU">Trauma ICU</SelectItem>
+                <SelectItem value="ENDOSCOPY NURSE">Endoscopy Nurse</SelectItem>
               </SelectContent>
             </Select>
           </div>
