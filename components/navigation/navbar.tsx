@@ -18,7 +18,7 @@ export function Navbar() {
           <nav className="hidden md:flex items-center space-x-4">
             <NavLink href="/">Home</NavLink>
             <NavLink href="/jobs">Jobs</NavLink>
-            <NavLink href="/apply">Apply</NavLink>
+            <NavLink href="/apply">Apply Online</NavLink>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/clients">Clients</NavLink>
             <NavLink href="/contact">Contact</NavLink>
