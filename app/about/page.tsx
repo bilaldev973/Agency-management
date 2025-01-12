@@ -1,9 +1,26 @@
-import Image from "next/image"
+"use client";
+import { useInView } from 'react-intersection-observer';
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Heart, Users, Trophy, Target } from "lucide-react"
+import Image from "next/image"
 
 export default function AboutPage() {
+  const { ref: missionRef, inView: missionInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+
+  const { ref: valuesRef, inView: valuesInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+
+  const { ref: achievementsRef, inView: achievementsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  })
+
   return (
     <div>
       <PageHeader 
@@ -13,7 +30,7 @@ export default function AboutPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Mission and Vision */}
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div ref={missionRef} className={`grid md:grid-cols-2 gap-12 items-center mb-16 ${missionInView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'} transition-all duration-1000`}>
           <div>
             <h2 className="text-3xl font-bold mb-6">Our Mission & Vision</h2>
             <p className="text-gray-600 mb-4">
@@ -36,32 +53,31 @@ export default function AboutPage() {
         </div>
 
         {/* Values */}
-        <div className="mb-16">
+        <div ref={valuesRef} className={`mb-16 ${valuesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'} transition-all duration-1000`}>
           <h2 className="text-3xl font-bold mb-8 text-center">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Heart,
-                title: "Care",
-                description: "We prioritize the well-being of healthcare professionals and patients alike"
-              },
-              {
-                icon: Users,
-                title: "Collaboration",
-                description: "Working together to achieve the best outcomes for all stakeholders"
-              },
-              {
-                icon: Trophy,
-                title: "Excellence",
-                description: "Maintaining the highest standards in recruitment and placement"
-              },
-              {
-                icon: Target,
-                title: "Integrity",
-                description: "Operating with transparency and ethical principles"
-              }
+            {[{
+              icon: Heart,
+              title: "Care",
+              description: "We prioritize the well-being of healthcare professionals and patients alike"
+            },
+            {
+              icon: Users,
+              title: "Collaboration",
+              description: "Working together to achieve the best outcomes for all stakeholders"
+            },
+            {
+              icon: Trophy,
+              title: "Excellence",
+              description: "Maintaining the highest standards in recruitment and placement"
+            },
+            {
+              icon: Target,
+              title: "Integrity",
+              description: "Operating with transparency and ethical principles"
+            }
             ].map((value, index) => (
-              <Card key={index}>
+              <Card key={index} className="transition-transform duration-300 transform hover:scale-105 hover:shadow-xl">
                 <CardHeader>
                   <value.icon className="h-12 w-12 text-primary mb-4" />
                   <CardTitle>{value.title}</CardTitle>
@@ -75,18 +91,18 @@ export default function AboutPage() {
         </div>
 
         {/* Achievements */}
-        <div>
-          <h2 className="text-3xl font-bold mb-8 text-center">Our Achievements</h2>
+        <div ref={achievementsRef} className={`text-center ${achievementsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'} transition-all duration-1000`}>
+          <h2 className="text-3xl font-bold mb-8">Our Achievements</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
+            <div>
               <div className="text-4xl font-bold text-primary mb-2">500+</div>
               <div className="text-gray-600">Successful Placements</div>
             </div>
-            <div className="text-center">
+            <div>
               <div className="text-4xl font-bold text-primary mb-2">50+</div>
               <div className="text-gray-600">Partner Hospitals</div>
             </div>
-            <div className="text-center">
+            <div>
               <div className="text-4xl font-bold text-primary mb-2">95%</div>
               <div className="text-gray-600">Satisfaction Rate</div>
             </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { HeroSection } from "@/components/hero-section"
 import { FeatureSection } from "@/components/feature-section"
@@ -42,6 +42,51 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const { toast } = useToast()
 
+  // Ref for the Featured Jobs section and Contact section
+  const featuredJobsRef = useRef<HTMLDivElement | null>(null)
+  const contactSectionRef = useRef<HTMLDivElement | null>(null)
+
+  // State to track whether sections are in view
+  const [isFeaturedJobsInView, setIsFeaturedJobsInView] = useState(false)
+  const [isContactSectionInView, setIsContactSectionInView] = useState(false)
+
+  // Intersection Observer logic
+  useEffect(() => {
+    const observerOptions = {
+      root: null, // relative to the viewport
+      threshold: 0.1, // trigger when 10% of the element is in view
+    }
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.target === featuredJobsRef.current) {
+          setIsFeaturedJobsInView(entry.isIntersecting)
+        }
+        if (entry.target === contactSectionRef.current) {
+          setIsContactSectionInView(entry.isIntersecting)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(handleIntersection, observerOptions)
+
+    if (featuredJobsRef.current) {
+      observer.observe(featuredJobsRef.current)
+    }
+    if (contactSectionRef.current) {
+      observer.observe(contactSectionRef.current)
+    }
+
+    return () => {
+      if (featuredJobsRef.current) {
+        observer.unobserve(featuredJobsRef.current)
+      }
+      if (contactSectionRef.current) {
+        observer.unobserve(contactSectionRef.current)
+      }
+    }
+  }, [])
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -49,7 +94,6 @@ export default function HomePage() {
         const data = await response.json()
         
         if (response.ok) {
-          // Sort jobs by creation date (newest first) and get last 3
           const sortedJobs = data.jobs
             .sort((a: Job, b: Job) => b.createdAt.seconds - a.createdAt.seconds)
             .slice(0, 3)
@@ -78,7 +122,10 @@ export default function HomePage() {
       <FeatureSection />
 
       {/* Featured Jobs Section */}
-      <section className="py-24">
+      <section
+        ref={featuredJobsRef}
+        className={`py-24 ${isFeaturedJobsInView ? "animate-fadeIn" : ""}`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Featured Positions</h2>
@@ -86,7 +133,7 @@ export default function HomePage() {
               Explore our latest nursing opportunities at Saudi Arabia&apos;s leading healthcare institutions.
             </div>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {loading ? (
               <>
@@ -104,7 +151,7 @@ export default function HomePage() {
               </div>
             )}
           </div>
-          
+
           <div className="text-center">
             <Link href="/jobs">
               <Button size="lg">View All Positions</Button>
@@ -114,24 +161,68 @@ export default function HomePage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
-            <div className="text-gray-600 max-w-2xl mx-auto">
-              Have questions about our opportunities? Contact us today.
-            </div>
-          </div>
-          <div className="max-w-lg mx-auto">
-            <ContactInfo />
-            <div className="mt-8 text-center">
-              <Link href="/contact">
-                <Button size="lg">Contact Us</Button>
-              </Link>
-            </div>
-          </div>
+      <section
+  ref={contactSectionRef}
+  className={`py-24 bg-gradient-to-b from-gray-50 to-white ${isContactSectionInView ? "animate-fadeIn" : ""}`}
+>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {/* Title and Description */}
+    <div className="text-center mb-16">
+      <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl mb-6">
+        Stay Connected with Us
+      </h2>
+      <p className="text-lg text-gray-600 max-w-4xl mx-auto sm:text-xl leading-relaxed">
+        We’re here to answer all your questions about nursing opportunities. Reach out to us anytime!
+      </p>
+    </div>
+
+    {/* Contact Info Section */}
+    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+      {/* Contact Card */}
+      <div className="flex flex-col items-center p-8 bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-lg transition-transform hover:scale-105">
+        <div className="flex items-center justify-center w-16 h-16 bg-black text-white rounded-full mb-6">
+          📞
         </div>
-      </section>
+        <h3 className="text-2xl font-semibold mb-2">Phone</h3>
+        <p className="text-gray-600 text-lg">+92309-1817632  <br /> +92304-9009934</p>
+      </div>
+
+      {/* Email Card */}
+      <div className="flex flex-col items-center p-8 bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-lg transition-transform hover:scale-105">
+        <div className="flex items-center justify-center w-16 h-16 bg-black text-white rounded-full mb-6">
+          ✉️
+        </div>
+        <h3 className="text-2xl font-semibold mb-2">Email</h3>
+        <p className="text-gray-600 text-lg">hr@aasioe.com  <br /> hr.umergujjar@gmail.com</p>
+      </div>
+
+      {/* Address Card */}
+      <div className="flex flex-col items-center p-8 bg-white bg-opacity-80 backdrop-blur-lg rounded-lg shadow-lg transition-transform hover:scale-105">
+        <div className="flex items-center justify-center w-16 h-16 bg-black text-white rounded-full mb-6">
+          📍
+        </div>
+        <h3 className="text-2xl font-semibold mb-2">Address</h3>
+        <p className="text-gray-600 text-lg text-center">
+        Office # 2/24, 4rth Floor Silk Center <br /> Near Rehamanabad Matro Station Rawalpindi
+        </p>
+      </div>
+    </div>
+
+    {/* Call to Action */}
+    <div className="mt-16 text-center">
+      <Link href="/contact">
+        <Button
+          size="lg"
+          className="px-12 py-4 text-lg font-bold text-white bg-black rounded-full hover:bg-gray-800 transition-all duration-300"
+        >
+          Contact Us Now
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
+
+
     </div>
   )
 }

@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
   return (
@@ -20,13 +20,21 @@ export function HeroSection() {
             Join leading healthcare institutions and advance your career with competitive packages and professional growth opportunities.
           </p>
           <div className="space-x-4">
+            {/* Blinking Button */}
             <Link href="/jobs">
-              <Button size="lg" variant="default">
+              <Button
+                size="lg"
+                className="bg-black text-white font-semibold hover:bg-blue-700 transition-all duration-300 animate-blink"
+              >
                 View Open Positions
               </Button>
             </Link>
+            {/* Auto Pop-Up Button */}
             <Link href="/apply">
-              <Button size="lg" variant="default">
+              <Button
+                size="lg"
+                className="bg-white text-black font-semibold hover:bg-green-700 transition-all duration-500 animate-pop"
+              >
                 Apply Now
               </Button>
             </Link>
@@ -34,5 +42,5 @@ export function HeroSection() {
         </div>
       </div>
     </div>
-  )
+  );
 }

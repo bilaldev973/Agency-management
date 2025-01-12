@@ -80,3 +80,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Container for testimonials */
+.testimonials-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Flex container to hold all testimonials */
+.testimonials-content {
+  display: flex;
+  animation: slide 20s linear infinite; /* Infinite sliding animation */
+}
+
+/* Testimonial Card Styling */
+.testimonial-card {
+  min-width: 35%; /* Each testimonial card takes full width of the container */
+  padding: 36px;
+  background: #f9fafb;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-right: 20px; /* Add space between testimonials */
+}
+
+/* Keyframes to move testimonials from left to right */
+@keyframes slide {
+  0% {
+    transform: translateX(0); /* Start from the left */
+  }
+  100% {
+    transform: translateX(-50%); /* Move to the left by 50% */
+  }
+}

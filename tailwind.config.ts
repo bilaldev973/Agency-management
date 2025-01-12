@@ -9,6 +9,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        pop: 'pop 8s ease-in-out infinite',  // Apply a slower and smoother pop animation (3s duration)
+      },
+      keyframes: {
+        pop: {
+          '0%': { transform: 'scale(1)', opacity: '1' },    // Start at normal size with full opacity
+          '50%': { transform: 'scale(1.1)', opacity: '0.9' }, // Pop to 110% size and slightly reduce opacity
+          '100%': { transform: 'scale(1)', opacity: '1' },    // Return to normal size with full opacity
+        },
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -61,30 +71,9 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
-      keyframes: {
-        'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-        },
-        'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
     },
   },
   plugins: [require('tailwindcss-animate')],
 };
+
 export default config;
