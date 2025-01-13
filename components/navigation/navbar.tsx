@@ -1,7 +1,8 @@
 import Link from "next/link"
-import { Stethoscope } from "lucide-react"
+// import { Stethoscope } from "lucide-react"
 import { NavLink } from "./nav-link"
 import { MobileNav } from "./mobile-nav"
+import Image from 'next/image';
 
 export function Navbar() {
   return (
@@ -9,10 +10,15 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <Stethoscope className="h-6 w-6" />
-              <span className="font-bold">ASHRAM & SON'S</span>
-            </Link>
+          <Link href="/" className="flex items-center space-x-2">
+        <Image
+          src="/logo.jpg" // Update this path to match your logo file
+          alt="Ashram & Son's Logo"
+          width={24} // Adjust width to match your design
+          height={24} // Adjust height to match your design
+        />
+        <span className="font-bold">ASHRAM & SON'S</span>
+      </Link>
           </div>
           
           <nav className="hidden md:flex items-center space-x-4">
