@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { Navbar } from '@/components/navigation/navbar'
 import { Footer } from '@/components/footer/footer'
 import { Toaster } from '@/components/ui/toaster'
+import { LoadingProvider } from '@/components/providers/loading-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,6 +16,9 @@ export const metadata: Metadata = {
       { url: '/icon.png', type: 'image/png', sizes: '32x32' },
       { url: '/favicon.ico', sizes: 'any' }
     ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }
+    ]
   },
   manifest: '/manifest.json'
 }
@@ -27,12 +31,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
-        <div className="flex min-h-screen flex-col">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <Toaster />
-        </div>
+        <LoadingProvider>
+          <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <Toaster />
+          </div>
+        </LoadingProvider>
       </body>
     </html>
   )

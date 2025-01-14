@@ -1,4 +1,8 @@
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer({
   images: {
     domains: ['images.unsplash.com'], // Allow Unsplash images
   },
@@ -13,12 +17,12 @@ module.exports = {
           presets: ['next/babel'],
           plugins: [
             '@babel/plugin-proposal-private-methods', // Add private fields support
-            '@babel/plugin-proposal-class-properties'  // Add class properties support
-          ]
-        }
-      }
+            '@babel/plugin-proposal-class-properties', // Add class properties support
+          ],
+        },
+      },
     });
 
     return config;
-  }
-};
+  },
+});

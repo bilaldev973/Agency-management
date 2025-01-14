@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/page-header";
 import { ClientCard } from "@/components/client-card";
+import { Suspense } from "react"; // Import Suspense
 
 const clients = [
   {
@@ -39,54 +40,56 @@ const testimonials = [
 
 export default function ClientsPage() {
   return (
-    <div>
-      <PageHeader
-        title="Our Clients"
-        description="Partnering with leading healthcare institutions across Saudi Arabia"
-      />
+    <Suspense fallback={<div>Loading...</div>}> {/* Add Suspense boundary here */}
+      <div>
+        <PageHeader
+          title="Our Clients"
+          description="Partnering with leading healthcare institutions across Saudi Arabia"
+        />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {clients.map((client, index) => (
-            <ClientCard key={index} {...client} />
-          ))}
-        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {clients.map((client, index) => (
+              <ClientCard key={index} {...client} />
+            ))}
+          </div>
 
-        <div>
-          <h2 className="text-3xl font-bold mb-8 text-center">Client Testimonials</h2>
-          <div className="relative overflow-hidden">
-            <div className="testimonials-wrapper">
-              <div className="testimonials-content">
-                {testimonials.map((testimonial, index) => (
-                  <div
-                    key={index}
-                    className="testimonial-card bg-gray-50 p-6 rounded-lg text-center shadow-md mb-8"
-                  >
-                    <p className="text-lg italic mb-4">{testimonial.quote}</p>
-                    <div>
-                      <p className="font-medium">{testimonial.author}</p>
-                      <p className="text-sm text-gray-600">{testimonial.role}</p>
+          <div>
+            <h2 className="text-3xl font-bold mb-8 text-center">Client Testimonials</h2>
+            <div className="relative overflow-hidden">
+              <div className="testimonials-wrapper">
+                <div className="testimonials-content">
+                  {testimonials.map((testimonial, index) => (
+                    <div
+                      key={index}
+                      className="testimonial-card bg-gray-50 p-6 rounded-lg text-center shadow-md mb-8"
+                    >
+                      <p className="text-lg italic mb-4">{testimonial.quote}</p>
+                      <div>
+                        <p className="font-medium">{testimonial.author}</p>
+                        <p className="text-sm text-gray-600">{testimonial.role}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
-                {/* Duplicate the testimonials to create an infinite loop */}
-                {testimonials.map((testimonial, index) => (
-                  <div
-                    key={`duplicate-${index}`}
-                    className="testimonial-card bg-gray-50 p-6 rounded-lg text-center shadow-md mb-8"
-                  >
-                    <p className="text-lg italic mb-4">{testimonial.quote}</p>
-                    <div>
-                      <p className="font-medium">{testimonial.author}</p>
-                      <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  ))}
+                  {/* Duplicate the testimonials to create an infinite loop */}
+                  {testimonials.map((testimonial, index) => (
+                    <div
+                      key={`duplicate-${index}`}
+                      className="testimonial-card bg-gray-50 p-6 rounded-lg text-center shadow-md mb-8"
+                    >
+                      <p className="text-lg italic mb-4">{testimonial.quote}</p>
+                      <div>
+                        <p className="font-medium">{testimonial.author}</p>
+                        <p className="text-sm text-gray-600">{testimonial.role}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

@@ -1,3 +1,8 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/no-unescaped-entities": "off", // Disable warnings about unescaped characters
+    "@next/next/no-img-element": "off",  // Allow usage of <img> instead of <Image />
+    "react-hooks/exhaustive-deps": "warn" // Warn about missing dependencies in useEffect
+  }
 }

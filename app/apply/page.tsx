@@ -1,165 +1,167 @@
-"use client"
-
-import { useState, useRef } from "react"
-import { PageHeader } from "@/components/page-header"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/hooks/use-toast"
+"use client";
+import { Suspense } from "react"; // Import Suspense
+import { useState, useRef } from "react";
+import { PageHeader } from "@/components/page-header";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ApplyPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
-  const { toast } = useToast()
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      const formData = new FormData(e.currentTarget)
-      formData.append('jobTitle', 'General Application')
-      formData.append('jobId', 'general')
+      const formData = new FormData(e.currentTarget);
+      formData.append('jobTitle', 'General Application');
+      formData.append('jobId', 'general');
 
       const response = await fetch('/api/applications', {
         method: 'POST',
         body: formData,
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('Failed to submit application')
+        throw new Error('Failed to submit application');
       }
 
       toast({
         title: "Success",
         description: "Your application has been submitted successfully!",
-      })
+      });
       
       // Reset form using the ref
       if (formRef.current) {
-        formRef.current.reset()
+        formRef.current.reset();
       }
     } catch (error) {
-      console.error('Application submission error:', error)
+      console.error('Application submission error:', error);
       toast({
         title: "Error",
         description: "Failed to submit application. Please try again.",
         variant: "destructive"
-      })
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <div>
-      <PageHeader
-        title="Apply Online"
-        description="Take the next step in your nursing career in Saudi Arabia"
-      />
+    <Suspense fallback={<div>Loading...</div>}> {/* Add Suspense boundary */}
+      <div>
+        <PageHeader
+          title="Apply Online"
+          description="Take the next step in your nursing career in Saudi Arabia"
+        />
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
-          <div className="space-y-4">
-            <Label htmlFor="name">Full Name</Label>
-            <Input id="name" name="name" required />
-          </div>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
+            <div className="space-y-4">
+              <Label htmlFor="name">Full Name</Label>
+              <Input id="name" name="name" required />
+            </div>
 
-          <div className="space-y-4">
-            <Label htmlFor="email">Email Address</Label>
-            <Input id="email" name="email" type="email" required />
-          </div>
+            <div className="space-y-4">
+              <Label htmlFor="email">Email Address</Label>
+              <Input id="email" name="email" type="email" required />
+            </div>
 
-          <div className="space-y-4">
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" name="phone" required />
-          </div>
+            <div className="space-y-4">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input id="phone" name="phone" required />
+            </div>
 
-          <div className="space-y-4">
-            <Label htmlFor="department">Preferred Department</Label>
-            <Select name="department" required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select department" />
-              </SelectTrigger>
-              <SelectContent>
-              <SelectItem value="ICU">ICU</SelectItem>
-                <SelectItem value="CCU">CCU</SelectItem>
-                <SelectItem value="cathlab">Cath Lab</SelectItem>
-                <SelectItem value="OT">Operation Theater</SelectItem>
-                <SelectItem value="ER">ER</SelectItem>         
-                <SelectItem value="NICU">NICU</SelectItem>
-                <SelectItem value="PEDIATRIC CARDIAC ICU">Pediatric Cardiac ICU</SelectItem>
-                <SelectItem value="PICU">PICU</SelectItem>
-                <SelectItem value="IVF NURSE">IVF Nurse</SelectItem>
-                <SelectItem value="ONCOLOGY NURSE">Oncology Nurse</SelectItem>
-                <SelectItem value="MEDICAL WARD">Medical ward</SelectItem>
-                <SelectItem value="SURGICAL WARD">Surgical Ward</SelectItem>
-                <SelectItem value="HEMODIALYSIS NURSE">Hemodialysis Nurse</SelectItem>
-                <SelectItem value="PEDIATRIC HIGH DEPENDENCY">Pediatric High Dependency</SelectItem>
-                <SelectItem value="CHILD & ABOLESCENT HEALTH">Child & Adolescent Mental Health</SelectItem>
-                <SelectItem value="NEURO SCIENCE ICU">Neuro Science ICU</SelectItem>
-                <SelectItem value="OBS GYNE">OBS Gyne</SelectItem>
-                <SelectItem value="LABOUR ROOM">Labour Room</SelectItem>
-                <SelectItem value="IPD NURSE">IPD Nurse</SelectItem>
-                <SelectItem value="DENTAL/PACU">Dental / PACU</SelectItem>
-                <SelectItem value="VIP TRAUMA CENTER">VIP Trauma Center</SelectItem>
-                <SelectItem value="RESPIRATORY THERAPIST NURSE">Respiratory Therapist Nurse</SelectItem>
-                <SelectItem value="TRAUMA ICU">Trauma ICU</SelectItem>
-                <SelectItem value="ENDOSCOPY NURSE">Endoscopy Nurse</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+            <div className="space-y-4">
+              <Label htmlFor="department">Preferred Department</Label>
+              <Select name="department" required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ICU">ICU</SelectItem>
+                  <SelectItem value="CCU">CCU</SelectItem>
+                  <SelectItem value="cathlab">Cath Lab</SelectItem>
+                  <SelectItem value="OT">Operation Theater</SelectItem>
+                  <SelectItem value="ER">ER</SelectItem>         
+                  <SelectItem value="NICU">NICU</SelectItem>
+                  <SelectItem value="PEDIATRIC CARDIAC ICU">Pediatric Cardiac ICU</SelectItem>
+                  <SelectItem value="PICU">PICU</SelectItem>
+                  <SelectItem value="IVF NURSE">IVF Nurse</SelectItem>
+                  <SelectItem value="ONCOLOGY NURSE">Oncology Nurse</SelectItem>
+                  <SelectItem value="MEDICAL WARD">Medical ward</SelectItem>
+                  <SelectItem value="SURGICAL WARD">Surgical Ward</SelectItem>
+                  <SelectItem value="HEMODIALYSIS NURSE">Hemodialysis Nurse</SelectItem>
+                  <SelectItem value="PEDIATRIC HIGH DEPENDENCY">Pediatric High Dependency</SelectItem>
+                  <SelectItem value="CHILD & ABOLESCENT HEALTH">Child & Adolescent Mental Health</SelectItem>
+                  <SelectItem value="NEURO SCIENCE ICU">Neuro Science ICU</SelectItem>
+                  <SelectItem value="OBS GYNE">OBS Gyne</SelectItem>
+                  <SelectItem value="LABOUR ROOM">Labour Room</SelectItem>
+                  <SelectItem value="IPD NURSE">IPD Nurse</SelectItem>
+                  <SelectItem value="DENTAL/PACU">Dental / PACU</SelectItem>
+                  <SelectItem value="VIP TRAUMA CENTER">VIP Trauma Center</SelectItem>
+                  <SelectItem value="RESPIRATORY THERAPIST NURSE">Respiratory Therapist Nurse</SelectItem>
+                  <SelectItem value="TRAUMA ICU">Trauma ICU</SelectItem>
+                  <SelectItem value="ENDOSCOPY NURSE">Endoscopy Nurse</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div className="space-y-4">
-            <Label htmlFor="experience">Years of Experience</Label>
-            <Select name="experience" required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select experience" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1-2">1-2 years</SelectItem>
-                <SelectItem value="3-5">3-5 years</SelectItem>
-                <SelectItem value="5-10">5-10 years</SelectItem>
-                <SelectItem value="10+">10+ years</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+            <div className="space-y-4">
+              <Label htmlFor="experience">Years of Experience</Label>
+              <Select name="experience" required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select experience" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1-2">1-2 years</SelectItem>
+                  <SelectItem value="3-5">3-5 years</SelectItem>
+                  <SelectItem value="5-10">5-10 years</SelectItem>
+                  <SelectItem value="10+">10+ years</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div className="space-y-4">
-            <Label htmlFor="resume">Resume/CV</Label>
-            <Input 
-              id="resume" 
-              name="resume" 
-              type="file" 
-              accept=".pdf,.doc,.docx" 
-              required 
-            />
-            <p className="text-sm text-gray-500">
-              Accepted formats: PDF, DOC, DOCX (Max size: 5MB)
-            </p>
-          </div>
+            <div className="space-y-4">
+              <Label htmlFor="resume">Resume/CV</Label>
+              <Input 
+                id="resume" 
+                name="resume" 
+                type="file" 
+                accept=".pdf,.doc,.docx" 
+                required 
+              />
+              <p className="text-sm text-gray-500">
+                Accepted formats: PDF, DOC, DOCX (Max size: 5MB)
+              </p>
+            </div>
 
-          <div className="space-y-4">
-            <Label htmlFor="coverLetter">Cover Letter (Optional)</Label>
-            <Textarea 
-              id="coverLetter" 
-              name="coverLetter" 
-              rows={6}
-              placeholder="Tell us about your experience and what makes you a great candidate."
-            />
-          </div>
+            <div className="space-y-4">
+              <Label htmlFor="coverLetter">Cover Letter (Optional)</Label>
+              <Textarea 
+                id="coverLetter" 
+                name="coverLetter" 
+                rows={6}
+                placeholder="Tell us about your experience and what makes you a great candidate."
+              />
+            </div>
 
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Submit Application"}
-          </Button>
-        </form>
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Application"}
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
-  )
+    </Suspense>
+  );
 }

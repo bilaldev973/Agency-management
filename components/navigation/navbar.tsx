@@ -17,10 +17,13 @@ export function Navbar() {
           width={24} // Adjust width to match your design
           height={24} // Adjust height to match your design
         />
-        <span className="font-bold">ASHRAM & SON'S</span>
+        <div className="flex flex-col">
+        <span className="font-bold text-4xl">AAS</span>
+        <span className="font-bold"> International Overseas Employeement</span>
+        </div>
       </Link>
           </div>
-          
+            
           <nav className="hidden md:flex items-center space-x-4">
             <NavLink href="/">Home</NavLink>
             <NavLink href="/jobs">Jobs</NavLink>

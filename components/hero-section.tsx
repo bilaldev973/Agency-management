@@ -26,7 +26,7 @@ export function HeroSection() {
                 size="lg"
                 className="bg-black text-white font-semibold hover:bg-blue-700 transition-all duration-300 animate-blink"
               >
-                View Open Positions
+                View All Jobs
               </Button>
             </Link>
             {/* Auto Pop-Up Button */}
